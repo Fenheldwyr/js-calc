@@ -67,6 +67,8 @@ let numClick = function(e) {
         if (num == '.' && calc.display.includes('.')) return;
         calc.display += num;
     }
+    const calcDisplay = document.querySelector('#display');
+    calcDisplay.textContent = calc.display;
     console.log(calc.display);
 }
 

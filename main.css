@@ -25,6 +25,11 @@ body {
     height: 80%;
     width: 90%;
     border: 1px solid black;
+    font-size: 150%;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    padding-right: 10px;
 }
 
 #calc-body {
