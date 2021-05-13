@@ -35,9 +35,11 @@ function calculate(acc, operand, operator) {
 }
 
 // assigned to operator keys, triggers a calculation
-function onOperatorClick(operatorKey) {
-    main(calc);
+function onOperatorClick(e) {
+    // main(calc);
+    const operatorKey = e.target.getAttribute('data-key');
     calc.operator = operatorKey;
+    console.log(calc.operator);
 }
 
 function main(calc) {
@@ -56,4 +58,23 @@ function main(calc) {
         calc.acc = calculate(calc.acc, calc.operand, calc.operator);
     }
 }
-// calc.acc = calculate(calc.acc, calc.operand, calc.operator);
+
+let numClick = function(e) {
+    // limit number size here to discourage users inputting ridiculously large numbers
+    if (calc.display.length <= 8) {
+        const num = e.target.getAttribute('data-key');
+        // disallow having more than one decimal point in a number
+        if (num == '.' && calc.display.includes('.')) return;
+        calc.display += num;
+    }
+    console.log(calc.display);
+}
+
+let allNumberButtons = document.querySelectorAll('.number-key');
+let allOperatorButtons = document.querySelectorAll('.operator-key');
+allNumberButtons.forEach(
+    button => button.addEventListener('click', numClick)
+    );
+allOperatorButtons.forEach(
+    button => button.addEventListener('click', onOperatorClick)
+    );
