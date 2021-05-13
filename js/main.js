@@ -1,10 +1,11 @@
 let calc = {
-    acc: 0,
-    operand: null,
-    operator: '',
-    display:'',
+    acc: 0, // stores the running total 
+    operand: 0, // the next number in the calculation
+    operator: '', // what operation is to be carried out
+    display:'', // a string of digits to be shown on display
 }
 
+// ensure we don't perform arithmetic on strings
 function parseNum(inputStr) {
     if (inputStr == '') {
         return 0;
@@ -13,17 +14,7 @@ function parseNum(inputStr) {
     return (num || "ERROR");
 }
 
-function setOperator(operator) {
-    if (operator == '+' || operator == '-') {
-        if (calc.operator != '') {
-            calc.operand = parseNum(calc.display);
-        }
-        calc.operator = operator;
-    }
-
-    calc.display = calc.acc;
-}
-
+// logic for calculations contained here along with safeguards for dangerous operations, so we don't e.g. divide by 0
 function calculate(acc, operand, operator) {
     if (operator == '+') {
         return acc + operand;
@@ -43,10 +34,26 @@ function calculate(acc, operand, operator) {
     }
 }
 
-function main(calc) {
-    while (calc.acc != "ERROR") {
-
-    }
+// assigned to operator keys, triggers a calculation
+function onOperatorClick(operatorKey) {
+    main(calc);
+    calc.operator = operatorKey;
 }
 
+function main(calc) {
+    // 
+    if (calc.display) {
+        calc.operand = parseNum(calc.display);
+    } else {
+        return;
+    }
+    // user begins calculation with something like "3-"
+    if (calc.operator == '') {
+        calc.acc = calc.operand;
+        return;
+    }
+    if (calc.operand != "ERROR" && calc.acc != "ERROR") {
+        calc.acc = calculate(calc.acc, calc.operand, calc.operator);
+    }
+}
 // calc.acc = calculate(calc.acc, calc.operand, calc.operator);
