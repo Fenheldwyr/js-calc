@@ -1,0 +1,55 @@
+body {
+    background-color: rgba(46, 21, 46, 0.685);
+}
+
+#calculator {
+    width: 300px;
+    height: 500px;
+    border: 2px solid hsl(195, 53%, 79%);
+    background-color: hsl(194, 38%, 91%);
+    display: grid;
+    grid-template: 1fr 2fr / 1fr;
+    grid-template-areas: "calc-head" 
+                         "calc-body";
+}
+
+#calc-head {
+    grid-area: calc-head;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#display {
+    background-color: rgb(244, 250, 231);
+    height: 80%;
+    width: 90%;
+    border: 1px solid black;
+}
+
+#calc-body {
+    grid-area: calc-body;
+    display: grid;
+    grid-template: 1fr / 2fr 1fr;
+    grid-template-areas: "number-keys operator-keys";
+}
+
+#number-keys {
+    grid-area: number-keys;
+    display: grid;
+    grid-template: 1fr 1fr 1fr 1fr / 1fr 1fr 1fr;
+    grid-template-areas: "key-7 key-8 key-9"
+                         "key-4 key-5 key-6"
+                         "key-1 key-2 key-3"
+                         "key-0 key-0 key-dot";
+}
+
+#operator-keys {
+    grid-area: operator-keys;
+    display: grid;
+    grid-template: 1fr 1fr 1fr 1fr / 1fr 1fr;
+    grid-template-areas: "key-ac key-ac"
+                         "key-multiply key-divide"
+                         "key-add key-subtract"
+                         "key-equals key-equals";
+}
