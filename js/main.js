@@ -1,5 +1,5 @@
 let calc = {
-    acc: null, // stores the running total 
+    acc: 0, // stores the running total 
     operand: null, // the next number in the calculation
     operator: '', // what operation is to be carried out
     display:'', // a string of digits to be shown on display
@@ -42,23 +42,10 @@ function onOperatorClick(e) {
     if (operatorKey == 'AC') {
         clearData(calc);
     } else if (operatorKey != '=') {
-        if (calc.acc === null && calc.display) {
-            calc.acc = calc.operand;
-            calc.operator = operatorKey;
-            displayTotal(calc);
-            return;
-        }
-
         if (calc.equalsPressed) {
             calc.operand = null;
             calc.equalsPressed = false;
             calc.operator = operatorKey;
-            return;
-        }
-
-        if (calc.operator != operatorKey) {
-            calc.operator = operatorKey;
-            displayTotal(calc);
             return;
         }
 
@@ -77,7 +64,7 @@ function onOperatorClick(e) {
 }
 
 function clearData(calc) {
-    calc.acc = null;
+    calc.acc = 0;
     calc.operand = null;
     calc.operator = '';
     calc.display = '';
