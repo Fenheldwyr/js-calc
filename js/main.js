@@ -1,8 +1,10 @@
 let calc = {
-    acc: 0, // stores the running total 
-    operand: 0, // the next number in the calculation
+    acc: null, // stores the running total 
+    operand: null, // the next number in the calculation
     operator: '', // what operation is to be carried out
     display:'', // a string of digits to be shown on display
+    calcDisplay: document.querySelector("#display"),
+    equalsPressed: false,
 }
 
 // ensure we don't perform arithmetic on strings
@@ -29,34 +31,63 @@ function calculate(acc, operand, operator) {
         if (operand == 0) {
             return "ERROR";
         } else {
-            return acc / operator;
+            return acc / operand;
         }
     }
 }
 
 // assigned to operator keys, triggers a calculation
 function onOperatorClick(e) {
-    // main(calc);
     const operatorKey = e.target.getAttribute('data-key');
-    calc.operator = operatorKey;
-    console.log(calc.operator);
+    if (operatorKey == 'AC') {
+        clearData(calc);
+    } else if (operatorKey != '=') {
+        if (calc.acc === null && calc.display) {
+            calc.acc = calc.operand;
+            calc.operator = operatorKey;
+            displayTotal(calc);
+            return;
+        }
+
+        if (calc.equalsPressed) {
+            calc.operand = null;
+            calc.equalsPressed = false;
+            calc.operator = operatorKey;
+            return;
+        }
+
+        if (calc.operator != operatorKey) {
+            calc.operator = operatorKey;
+            displayTotal(calc);
+            return;
+        }
+
+        if (calc.operator == "") {
+            calc.acc = calculate(calc.acc, calc.operand, operatorKey);
+        } else {
+            calc.acc = calculate(calc.acc, calc.operand, calc.operator);
+        }
+        calc.operator = operatorKey;
+        displayTotal(calc);
+    } else if (operatorKey == '=') {
+        calc.acc = calculate(calc.acc, calc.operand, calc.operator);
+        displayTotal(calc);
+        calc.equalsPressed = true;
+    }
 }
 
-function main(calc) {
-    // 
-    if (calc.display) {
-        calc.operand = parseNum(calc.display);
-    } else {
-        return;
-    }
-    // user begins calculation with something like "3-"
-    if (calc.operator == '') {
-        calc.acc = calc.operand;
-        return;
-    }
-    if (calc.operand != "ERROR" && calc.acc != "ERROR") {
-        calc.acc = calculate(calc.acc, calc.operand, calc.operator);
-    }
+function clearData(calc) {
+    calc.acc = null;
+    calc.operand = null;
+    calc.operator = '';
+    calc.display = '';
+    calc.calcDisplay.textContent = '';
+    calc.equalsPressed = false;
+}
+
+function displayTotal(calc) {
+    calc.display = "";
+    calc.calcDisplay.textContent = calc.acc;
 }
 
 let numClick = function(e) {
@@ -67,9 +98,8 @@ let numClick = function(e) {
         if (num == '.' && calc.display.includes('.')) return;
         calc.display += num;
     }
-    const calcDisplay = document.querySelector('#display');
-    calcDisplay.textContent = calc.display;
-    console.log(calc.display);
+    calc.calcDisplay.textContent = calc.display;
+    calc.operand = parseNum(calc.display);
 }
 
 let allNumberButtons = document.querySelectorAll('.number-key');
