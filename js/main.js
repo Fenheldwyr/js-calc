@@ -3,8 +3,8 @@ let calc = {
     operand: null, // the next number in the calculation
     operator: '', // what operation is to be carried out
     display:'', // a string of digits to be shown on display
-    calcDisplay: document.querySelector("#display"),
-    equalsPressed: false,
+    calcDisplay: document.querySelector("#display"), // the actual element that will output to the user
+    equalsPressed: false, // tips us off as to whether we need to start a new series of calculations
 }
 
 // ensure we don't perform arithmetic on strings
@@ -42,6 +42,8 @@ function onOperatorClick(e) {
     if (operatorKey == 'AC') {
         clearData(calc);
     } else if (operatorKey != '=') {
+        // stops calculator from running '=' key logic,
+        // where the previous calculation is repeated
         if (calc.equalsPressed) {
             calc.operand = null;
             calc.equalsPressed = false;
@@ -49,8 +51,10 @@ function onOperatorClick(e) {
             return;
         }
         
-        if (calc.acc === null) {
+        // prepare the first input for further calculations
+        if (calc.acc === null ) {
             calc.acc = calc.operand;
+            // negate the base value if user intends it to be negative
             if (operatorKey == '-') calc.acc = -calc.acc;
             calc.operator = operatorKey;
             displayTotal(calc);
@@ -58,11 +62,15 @@ function onOperatorClick(e) {
         }
 
         calc.acc = calculate(calc.acc, calc.operand, calc.operator);
+        // record what calculation we just performed, so pressing '=' lets us 
+        // repeat it
         calc.operator = operatorKey;
         displayTotal(calc);
         
     } else if (operatorKey == '=') {
+        // nothing to calculate; so don't bother
         if (calc.acc === null ) return;
+        // display final result. further presses will repeat the last calculation.
         calc.acc = calculate(calc.acc, calc.operand, calc.operator);
         displayTotal(calc);
         calc.equalsPressed = true;
@@ -95,6 +103,7 @@ let numClick = function(e) {
     calc.operand = parseNum(calc.display);
 }
 
+// set up the buttons!
 let allNumberButtons = document.querySelectorAll('.number-key');
 let allOperatorButtons = document.querySelectorAll('.operator-key');
 allNumberButtons.forEach(
