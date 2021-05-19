@@ -62,6 +62,7 @@ function onOperatorClick(e) {
         displayTotal(calc);
         
     } else if (operatorKey == '=') {
+        if (calc.acc === null ) return;
         calc.acc = calculate(calc.acc, calc.operand, calc.operator);
         displayTotal(calc);
         calc.equalsPressed = true;
