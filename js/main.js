@@ -104,7 +104,12 @@ function clearData(calc) {
 
 function displayTotal(calc) {
     calc.display = "";
-    calc.calcDisplay.textContent = calc.acc;
+    if (typeof(calc.acc) == "number") {
+        // prefixing with + drops uneccesary zeroes, which looks better
+        calc.calcDisplay.textContent = +calc.acc.toFixed(16);
+    } else {
+        calc.calcDisplay.textContent = calc.acc;
+    }
 }
 
 
