@@ -5,6 +5,7 @@ let calc = {
     display:'', // a string of digits to be shown on display
     calcDisplay: document.querySelector("#display"), // the actual element that will output to the user
     equalsPressed: false, // tips us off as to whether we need to start a new series of calculations
+    isLocked: false, // determines whether further inputs are allowed, e.g. prevent further calculations when user divides by 0
 }
 
 // ensure we don't perform arithmetic on strings
@@ -13,7 +14,12 @@ function parseNum(inputStr) {
         return 0;
     }
     let num = Number(inputStr);
-    return (num || "ERROR");
+    // 'return (num || "ERROR")' does not return num when num = 0
+    if (typeof(num) === 'number') {
+        return num;
+    } else {
+        return "ERROR";
+    }
 }
 
 // logic for calculations contained here along with safeguards for dangerous operations, so we don't e.g. divide by 0
@@ -29,7 +35,7 @@ function calculate(acc, operand, operator) {
     }
     if (operator == '/') {
         if (operand == 0) {
-            return "ERROR";
+            return "ERROR: division by 0 is undefined!";
         } else {
             return acc / operand;
         }
@@ -38,10 +44,11 @@ function calculate(acc, operand, operator) {
 
 // assigned to operator keys, triggers a calculation
 function onOperatorClick(e) {
+    // if (calc.isLocked) return;
     const operatorKey = e.target.getAttribute('data-key');
     if (operatorKey == 'AC') {
         clearData(calc);
-    } else if (operatorKey != '=') {
+    } else if (operatorKey != '=' && !calc.isLocked) {
         // stops calculator from running '=' key logic,
         // where the previous calculation is repeated
         if (calc.equalsPressed) {
@@ -66,14 +73,22 @@ function onOperatorClick(e) {
         // repeat it
         calc.operator = operatorKey;
         displayTotal(calc);
-        
-    } else if (operatorKey == '=') {
+
+        if (typeof(calc.acc) != "number") {
+            calc.isLocked = true;
+        }
+
+    } else if (operatorKey == '=' && !calc.isLocked) {
         // nothing to calculate; so don't bother
         if (calc.acc === null ) return;
         // display final result. further presses will repeat the last calculation.
         calc.acc = calculate(calc.acc, calc.operand, calc.operator);
         displayTotal(calc);
         calc.equalsPressed = true;
+        
+        if (typeof(calc.acc) != "number") {
+            calc.isLocked = true;
+        }
     }
 }
 
@@ -84,6 +99,7 @@ function clearData(calc) {
     calc.display = '';
     calc.calcDisplay.textContent = '';
     calc.equalsPressed = false;
+    calc.isLocked = false;
 }
 
 function displayTotal(calc) {
@@ -91,7 +107,9 @@ function displayTotal(calc) {
     calc.calcDisplay.textContent = calc.acc;
 }
 
+
 let numClick = function(e) {
+    if (calc.isLocked) return;
     // limit number size here to discourage users inputting ridiculously large numbers
     if (calc.display.length <= 8) {
         const num = e.target.getAttribute('data-key');
