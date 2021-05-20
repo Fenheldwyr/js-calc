@@ -92,7 +92,8 @@ function onOperatorClick(e) {
         }
 
     } else if (operatorKey == 'DEL' && !calc.isLocked) {
-        if (calc.display.length = 0) return;
+        // user should only delete their own input, not the result of the calculation
+        if (calc.display.length = 0 || calc.equalsPressed) return;
         calc.display = calc.display.substring(0, calc.display.length - 1);
         calc.calcDisplay.textContent = calc.display;
         calc.operand = parseNum(calc.display);
