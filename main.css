@@ -1,5 +1,10 @@
 body {
-    background-color: rgba(46, 21, 46, 0.685);
+    background-color: rgba(62, 128, 81, 0.8);
+    width: 99vw;
+    height: 98vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #calculator {
@@ -26,7 +31,7 @@ body {
     height: 80%;
     width: 85%;
     border: 1px solid black;
-    font-size: 150%;
+    font-size: 200%;
     display: flex;
     justify-content: right;
     align-items: center;
