@@ -115,6 +115,7 @@ function displayTotal(calc) {
         // prefixing with + drops uneccesary zeroes, which looks better
         calc.calcDisplay.textContent = +calc.acc.toFixed(16);
     } else {
+        // displays error message
         calc.calcDisplay.textContent = calc.acc;
     }
 }
@@ -122,6 +123,11 @@ function displayTotal(calc) {
 
 let numClick = function(e) {
     if (calc.isLocked) return;
+    if (calc.equalsPressed) {
+        // user entering a new number without pressing an operator first indicates 
+        // entirely new calculation is being performed
+        clearData(calc);
+    }
     // limit number size here to discourage users inputting ridiculously large numbers
     if (calc.display.length <= 8) {
         const num = e.target.getAttribute('data-key');
