@@ -48,7 +48,8 @@ function onOperatorClick(e) {
     const operatorKey = e.target.getAttribute('data-key');
     if (operatorKey == 'AC') {
         clearData(calc);
-    } else if (operatorKey != '=' && !calc.isLocked) {
+
+    } else if ('+-*/'.includes(operatorKey) && !calc.isLocked) {
         // stops calculator from running '=' key logic,
         // where the previous calculation is repeated
         if (calc.equalsPressed) {
@@ -89,6 +90,12 @@ function onOperatorClick(e) {
         if (typeof(calc.acc) != "number") {
             calc.isLocked = true;
         }
+
+    } else if (operatorKey == 'DEL' && !calc.isLocked) {
+        if (calc.display.length = 0) return;
+        calc.display = calc.display.substring(0, calc.display.length - 1);
+        calc.calcDisplay.textContent = calc.display;
+        calc.operand = parseNum(calc.display);
     }
 }
 

@@ -57,7 +57,7 @@ body {
     grid-area: operator-keys;
     display: grid;
     grid-template: 1fr 1fr 1fr 1fr / 1fr 1fr;
-    grid-template-areas: "key-ac key-ac"
+    grid-template-areas: "key-ac key-del"
                          "key-multiply key-divide"
                          "key-add key-subtract"
                          "key-equals key-equals";
