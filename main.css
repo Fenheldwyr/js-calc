@@ -3,7 +3,7 @@ body {
 }
 
 #calculator {
-    width: 300px;
+    width: 350px;
     height: 500px;
     border: 1px solid #000000;
     background-color: #e9edf5;
@@ -79,14 +79,16 @@ button {
 
 .number-key:active {
     background-color: rgb(240, 240, 240);
-    border: 3px solid rgb(185, 185, 185);
+    box-shadow: 0 0 1px 3px rgb(185, 185, 185) inset;
+    /* border: 3px solid rgb(185, 185, 185); */
 }
 
 .operator-key {
-    background-color: #f08080;
+    background-color: hsl(0, 79%, 72%);
 }
 
 .operator-key:active {
     background-color: hsl(0, 75%, 70%);
-    border: 3px solid rgb(192, 100, 100);
+    box-shadow: 0 0 1px 3px hsl(0, 50%, 60%) inset;
+    /* border: 3px solid rgb(192, 100, 100); */
 }
